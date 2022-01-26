@@ -1,0 +1,11 @@
+<li><a href="{% url 'index'%}">{{ "Back" }}</a></li>
+{% if item_list %}
+    <ul>
+    {% for item in item_list %}
+        <li><a>{{ item.itemName }} {{ item.winner}} {{ item.itemDate }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No items are available.</p>
+{% endif %}
+<li><a href="{% url 'index'%}">{{ "Back" }}</a></li>

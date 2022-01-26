@@ -1,0 +1,18 @@
+<h1>{{ player.playerName }}</h1>
+<ul>
+{% for item in question.item_set.all %}
+    <li>{{ item.itemName }}</li>
+{% endfor %}
+</ul>
+
+<form action="{% url 'players:detail' player.playerName %}" method="get">
+    {% csrf_token %}
+    <fieldset>
+        <legend><h1>{{ "Items Won" }}</h1></legend>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        {% for item in player.item_set.all %}
+            <label for="item{{ forloop.counter }}">{{ item.itemName}} {{ item.price }} {{ item.itemDate }}</label><br>
+        {% endfor %}
+    </fieldset>
+    <input type=button value="Back" onClick="javascript:history.go(-1);">
+    </form>
