@@ -8,15 +8,16 @@ from .models import Player, Item, File
 from django.db.models import Q
 
 
-#generic way
+#Landing page - displays all non alt characters above the guild parse min level
 def index(request):
     players_list = Player.objects.filter(~Q(playerType='Alt')).order_by('playerName')
     context = {'player_list': players_list}
     return render(request, 'players/index.html', context)
 
-#non generic way
+#Detail page for the player
 def detail(request, playerName):
     player = get_object_or_404(Player, playerName=playerName)
-    return render(request, 'players/detail.html', {'player': player})
+    items = Item.objects.filter(Q(winner=playerName)).order_by('itemDate')
+    return render(request, 'players/detail.html', {'player': player, 'items' : items})
 
 # Create your views here.

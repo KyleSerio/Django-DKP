@@ -1,10 +1,10 @@
 <li><a href="{% url 'index'%}">{{ "Back" }}</a></li>
 {% if player_list %}
-    <ul>
+    <table>
     {% for player in player_list %}
-        <li><a href="{% url 'players:detail' player.playerName %}">{{ player.playerName }} {{ player.currentDKP}} {{ player.checksEarned }}{{'/'}} {{ player.checksAvail }}</a></li>
+        <tr><td><a href="{% url 'players:detail' player.playerName %}">{{ player.playerName }}</a></td><td>{{ player.currentDKP}}</td><td>{{ player.checksEarned }}{{'/'}} {{ player.checksAvail }}</td></tr>
     {% endfor %}
-    </ul>
+    </table>
 {% else %}
     <p>No players are available.</p>
 {% endif %}

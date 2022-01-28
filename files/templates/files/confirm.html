@@ -1,0 +1,15 @@
+<h1>{{ "Welcome to the confirmation page!" }}</h1>
+<li><a href="{% url 'index'%}">{{ "Back" }}</a></li>
+{% if winsList %}
+    <table>
+    {% for item in winsList %}
+        <tr><td>{{ item.winner}}</td> <td>{{ item.itemName }}</td> <td>{{ item.itemDate }}</td>
+        <td>{{'Edit'}}</td><td>{{'Delete'}}</td></tr>
+    {% endfor %}
+    </table>
+{% else %}
+    <p>No wins found</p>
+{% endif %}
+<br>
+{{'Confirm All'}}{{'Abort'}}
+<li><a href="{% url 'index'%}">{{ "Back" }}</a></li>

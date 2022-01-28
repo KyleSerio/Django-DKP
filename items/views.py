@@ -7,7 +7,8 @@ from django.views import generic
 from players.models import Player, Item, File
 
 
-#generic way
+#Landing page - Displays all items in the database
+#TODO - display last 100?
 def index(request):
     items_list = Item.objects.order_by('itemName')
     context = {'item_list': items_list}

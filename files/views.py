@@ -9,38 +9,31 @@ from .forms import UploadFileForm
 from files.parseFile import *
 
 
-#generic way
+#Landing page, displays upload file option. File List not used(yet?)
 def index(request):
     file_list = File.objects.order_by('fileDate')
     context = {'file_list': file_list}
     return render(request, 'files/index.html', context)
 
-def uploadRaid(request):
+#Gives the user the option to upload different log types, and parse them accordingly.
+def uploadFile(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            parseRaid(request, form)
-            return HttpResponseRedirect('/files/')
+            type = form.cleaned_data.get("type")
+            #type corresponds to the 1st part of the logTypes tuple in forms
+            context = []
+            if type[0] == "1": #
+                parseGuild(request, form)
+            elif type[0] == "2":
+                parseRaid(request, form)
+            elif type[0] == "3":
+                winsList = parseWins(request, form)
+                context = {'winsList': winsList}
+            return render(request, 'files/confirm.html', context)
     else:
         form = UploadFileForm()
-    return render(request, 'files/uploadRaid.html', {'form': form})
+    return render(request, 'files/uploadFile.html', {'form': form})
 
-def uploadGuild(request):
-    if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            parseGuild(request, form)
-            return HttpResponseRedirect('/files/')
-    else:
-        form = UploadFileForm()
-    return render(request, 'files/uploadGuild.html', {'form': form})
-
-def uploadWins(request):
-    if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            parseWins(request, form)
-            return HttpResponseRedirect('/files/')
-    else:
-        form = UploadFileForm()
-    return render(request, 'files/uploadWins.html', {'form': form})
+def confirm(request):
+    return render(request, 'files/confirm.html')

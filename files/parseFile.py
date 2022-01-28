@@ -40,12 +40,13 @@ def parseGuild(request, form):
 def parseWins(request, form):
     f = request.FILES['file']
     lines = f.readlines()
+    items = []
     with open('E:\Programs\Python\Web\mysite\mysite\out.txt', 'w') as destination:
         for x in lines:
             words = x.split()
             itemIndex = len(words) - 13
             item = ""
-            winnerName = words[12].decode()
+            winnerName = words[12].decode().capitalize()
             destination.write("[Winner: " + winnerName)
             for y in range(itemIndex):
                 item = item + words[13 + y].decode()
@@ -53,6 +54,8 @@ def parseWins(request, form):
                     item = item + " "
             item = item[:-2]
             destination.write(" Item: " + item + "]")
-
-            newItem = Item(itemName=item, winner=winnerName)
-            newItem.save()
+            person = Player.objects.filter(playerName=winnerName)
+            if person:
+                newItem = Item(itemName=item, winner=winnerName)
+                items.append(newItem)
+    return items
