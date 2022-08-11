@@ -1,9 +1,11 @@
 from players.models import Player, Item, File
 from django.db.models import F
+import logging
+from django.conf import settings
 minLevel = 60
 dkpPerRaid = 50
 
-def parseRaid(request, form):
+def parseRaid(request):
     f = request.FILES['file']
     lines = f.readlines()
     with open('E:\Programs\Python\Web\mysite\mysite\out.txt', 'w') as destination:
@@ -18,7 +20,7 @@ def parseRaid(request, form):
     #Update all players potential checks                
     Player.objects.all().update(checksAvail=F('checksAvail')+1)
 
-def parseGuild(request, form):
+def parseGuild(request):
     f = request.FILES['file']
     lines = f.readlines()
     with open('E:\Programs\Python\Web\mysite\mysite\out.txt', 'w') as destination:
@@ -37,7 +39,7 @@ def parseGuild(request, form):
 #Winner = words[12]
 #Item = words[13] -> words[end - 1]
 #Cost = words[end]
-def parseWins(request, form):
+def parseWins(request):
     f = request.FILES['file']
     lines = f.readlines()
     items = []
@@ -46,16 +48,21 @@ def parseWins(request, form):
             words = x.split()
             itemIndex = len(words) - 13
             item = ""
-            winnerName = words[12].decode().capitalize()
-            destination.write("[Winner: " + winnerName)
+            winner = words[12].decode().capitalize()
+            destination.write("[Winner: " + winner)
             for y in range(itemIndex):
                 item = item + words[13 + y].decode()
                 if y < itemIndex:
                     item = item + " "
             item = item[:-2]
             destination.write(" Item: " + item + "]")
-            person = Player.objects.filter(playerName=winnerName)
+            person = Player.objects.filter(playerName=winner)
             if person:
-                newItem = Item(itemName=item, winner=winnerName)
+                newItem = {'winner': winner, 'item': item}
                 items.append(newItem)
     return items
+
+def applyWins(request):
+    logging.debug("INSIDE APPLY2")
+    logging.debug(request.session['winsList'])
+    return request
