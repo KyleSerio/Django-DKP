@@ -12,9 +12,9 @@
         <h1>Welcome to the DKP Site!</h1>
     </div>
 
-    <li><a href="{% url 'players:index'%}">{{ "Players" }}</a></li>
-    <li><a href="{% url 'files:index'%}">{{ "Files" }}</a></li>
-    <li><a href="{% url 'items:index'%}">{{ "Items" }}</a></li>
+    <a class="btn btn-info btn-lg " href="{% url 'players:index'%}" role="button">Players</a>
+    <a class="btn btn-info btn-lg " href="{% url 'items:index'%}" role="button">Items</a>
+    <a class="btn btn-info btn-lg " href="{% url 'files:index'%}" role="button">Files</a>
     
   </body>
 </html>

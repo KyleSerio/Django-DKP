@@ -3,9 +3,17 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'players/index.css' %}">
 
-<li><a href="{% url 'index'%}">{{ "Back" }}</a></li>
+<a class="btn btn-info btn-lg " href="{% url 'index'%}" role="button">Back</a>
+
 {% if player_list %}
-    <table>
+    <table class="table table-dark">
+        <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Current DKP</th>
+              <th scope="col">Attendance Checks</th>
+            </tr>
+          </thead>
     {% for player in player_list %}
         <tr><td><a href="{% url 'players:detail' player.playerName %}">{{ player.playerName }}</a></td><td>{{ player.currentDKP}}</td><td>{{ player.checksEarned }}{{'/'}} {{ player.checksAvail }}</td></tr>
     {% endfor %}
@@ -13,4 +21,4 @@
 {% else %}
     <p>No players are available.</p>
 {% endif %}
-<li><a href="{% url 'index'%}">{{ "Back" }}</a></li>
+<a class="btn btn-info btn-lg " href="{% url 'index'%}" role="button">Back</a>
