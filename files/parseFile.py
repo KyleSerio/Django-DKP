@@ -63,6 +63,7 @@ def parseWins(request):
     return items
 
 def applyWins(request):
-    logging.debug("INSIDE APPLY2")
+    logging.debug("INSIDE APPLYWINS FUNC")
     logging.debug(request.session['winsList'])
+    #THIS IS WHERE WE NEED TO APPLY THE CHANGES!
     return request

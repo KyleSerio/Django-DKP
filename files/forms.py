@@ -9,6 +9,11 @@ class UploadFileForm(forms.Form):
     title = forms.CharField(max_length=50)
     file = forms.FileField()
     type = forms.MultipleChoiceField(choices = logTypes)
+    #Automagically adds class="form-control" to each field, making it prettier
+    def __init__(self, *args, **kwargs):
+        super(UploadFileForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
 
 class editWins(forms.Form):
     winner = forms.CharField(label="Winner", max_length=50)

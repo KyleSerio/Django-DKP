@@ -64,4 +64,4 @@ def confirm(request):
     result = request.POST
     logging.debug(request.POST.get('winsList'))
     applyWins(request)
-    return render(request, 'files/confirm.html')
+    return render(request, 'files/index.html')

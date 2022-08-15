@@ -1,8 +1,17 @@
-<form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="OK">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'players/index.css' %}">
+
+<h1>This is the Upload File Page!</h1>
+
+<form action="" method="post" class="form-group" enctype="multipart/form-data">
+    <div class="container">
+        {% csrf_token %}
+        {{ form }}
+    </div>
+    <input type="submit" class="btn btn-primary" value="OK">
 </form>
 
 <br/>
-<input type=button value="Back" onClick="javascript:history.go(-1);">
+<a class="btn btn-info btn-lg " href="{% url 'index'%}" role="button">Back</a>
