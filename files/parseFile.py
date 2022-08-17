@@ -66,4 +66,9 @@ def applyWins(request):
     logging.debug("INSIDE APPLYWINS FUNC")
     logging.debug(request.session['winsList'])
     #THIS IS WHERE WE NEED TO APPLY THE CHANGES!
+    for entry in request.session['winsList']:
+        winnerName = entry['winner']
+        item = entry['item']
+        newItem = Item(itemName=item,winner=winnerName)
+        newItem.save()
     return request
