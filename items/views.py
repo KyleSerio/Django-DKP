@@ -13,3 +13,9 @@ def index(request):
     items_list = Item.objects.order_by('itemName')
     context = {'item_list': items_list}
     return render(request, 'items/index.html', context)
+
+def detail(request, itemName):
+    items = Item.objects.filter(itemName=itemName).order_by('itemDate')
+    #context = {'item_list' : items}
+    items = Item.objects.filter(itemName=itemName).order_by('itemDate')
+    return render(request, 'items/detail.html', {'items' : items, 'itemName' : itemName})

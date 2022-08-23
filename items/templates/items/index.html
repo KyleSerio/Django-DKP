@@ -15,7 +15,9 @@
         </tr>
       </thead>
     {% for item in item_list %}
-        <tr><td>{{ item.itemName }}</td> <td>{{ item.winner}}</td> <td>{{ item.price}}</td> <td>{{ item.itemDate }}</td></tr>
+
+        <tr><td><a href="{% url 'items:detail' item.itemName %}">{{ item.itemName }}</a></td> <td>{{ item.winner}}</td> <td>{{ item.price}}</td> <td>{{ item.itemDate }}</td></tr>
+
     {% endfor %}
     </table>
 {% else %}

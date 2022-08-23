@@ -3,7 +3,7 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'players/index.css' %}">
 
-<h1>{{ player.playerName }}</h1>
+<h1>{{ itemName }}</h1>
 
 <fieldset>
     
@@ -11,13 +11,13 @@
     <h2>Item History</h2>
     <table class="table table-dark">
         <tr>
-            <th scope="col">Item Name</th>
+            <th scope="col">Buyer Name</th>
             <th scope="col">DKP Spent</th>
             <th scope="col">Date Won</th>
         </tr>
     {% for item in items %}
-        <tr><td><a href="{% url 'items:detail' item.itemName %}">{{ item.itemName }}</a></td><td>{{ item.price }}</td><td>{{ item.itemDate }}</td></tr>
+        <tr><td><a href="{% url 'players:detail' item.winner %}">{{ item.winner }}</a></td><td>{{ item.price }}</td><td>{{ item.itemDate }}</td></tr>
     {% endfor %}
     </table>
 </fieldset>
-<a class="btn btn-info btn-lg " href="{% url 'players:index'%}" role="button">Back</a>
+<a class="btn btn-info btn-lg " href="{% url 'items:index'%}" role="button">Back</a>
