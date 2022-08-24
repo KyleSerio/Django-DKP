@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.views import generic
+import logging
 from players.models import Player, Item, File
 
 
@@ -16,6 +17,8 @@ def index(request):
 
 def detail(request, itemName):
     items = Item.objects.filter(itemName=itemName).order_by('itemDate')
-    #context = {'item_list' : items}
-    items = Item.objects.filter(itemName=itemName).order_by('itemDate')
     return render(request, 'items/detail.html', {'items' : items, 'itemName' : itemName})
+
+def raidView(request, raidDate):
+    items = Item.objects.filter(itemDate=raidDate).order_by('price')
+    return render(request, 'items/raidView.html', {'items' : items, 'date' : raidDate})
