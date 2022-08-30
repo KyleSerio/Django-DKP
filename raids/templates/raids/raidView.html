@@ -1,7 +1,7 @@
 <link rel="stylesheet" link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
 
 {% load static %}
-<link rel="stylesheet" href="{% static 'players/index.css' %}">
+<link rel="stylesheet" href="{% static 'items/index.css' %}">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="/">DKP</a>
@@ -23,22 +23,23 @@
     </div>
   </nav>
 
-<h1>{{ player.playerName }}</h1>
+<h1>{{ date }}</h1>
 
 <fieldset>
+    
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-    <h2>Item History</h2>
-    <a class="btn btn-info btn-lg " href="{% url 'players:index'%}" role="button">Back</a>
+    <h2>Raid Overview</h2>
+    <a class="btn btn-info btn-lg " href="{% url 'raids:index'%}" role="button">Back</a>
     <table class="table table-dark">
         <tr>
+            <th scope="col">Buyer Name</th>
             <th scope="col">Item Name</th>
             <th scope="col">DKP Spent</th>
             <th scope="col">Date Won</th>
         </tr>
     {% for item in items %}
-        <tr><td><a href="{% url 'items:detail' item.itemName %}">{{ item.itemName }}</a></td><td>{{ item.price }}</td><td><a href="{% url 'raids:raidView' item.itemDate %}">{{ item.itemDate }}</a></td></tr>
+        <tr><td><a href="{% url 'players:detail' item.winner %}">{{ item.winner }}</a></td><td><a href="{% url 'items:detail' item.itemName %}">{{ item.itemName }}</a></td><td>{{ item.price }}</td><td>{{ item.itemDate }}</td></tr>
     {% endfor %}
     </table>
 </fieldset>
-
-<a class="btn btn-info btn-lg " href="{% url 'players:index'%}" role="button">Back</a>
+<a class="btn btn-info btn-lg " href="{% url 'raids:index'%}" role="button">Back</a>

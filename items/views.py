@@ -19,6 +19,3 @@ def detail(request, itemName):
     items = Item.objects.filter(itemName=itemName).order_by('itemDate')
     return render(request, 'items/detail.html', {'items' : items, 'itemName' : itemName})
 
-def raidView(request, raidDate):
-    items = Item.objects.filter(itemDate=raidDate).order_by('price')
-    return render(request, 'items/raidView.html', {'items' : items, 'date' : raidDate})

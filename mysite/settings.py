@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'items.apps.ItemsConfig',
     'players.apps.PlayersConfig',
     'files.apps.FilesConfig',
+    'raids.apps.RaidsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

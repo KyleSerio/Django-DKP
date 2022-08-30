@@ -25,4 +25,5 @@ urlpatterns = [
     path('files/', include('files.urls')),
     path('items/', include('items.urls')),
     path('admin/', admin.site.urls),
+    path('raids/', include('raids.urls'))
 ]
