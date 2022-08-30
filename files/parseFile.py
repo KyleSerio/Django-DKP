@@ -2,6 +2,7 @@ from players.models import Player, Item, File
 from django.db.models import F
 import logging
 from django.conf import settings
+import re
 minLevel = 60
 dkpPerRaid = 50
 
@@ -44,23 +45,88 @@ def parseWins(request):
     lines = f.readlines()
     items = []
     with open('E:\Programs\Python\Web\mysite\mysite\out.txt', 'w') as destination:
+        #Clean the line and take out needed info
         for x in lines:
+            x = x.decode() #cast from byte-form to string
             words = x.split()
-            itemIndex = len(words) - 13
+            if "You say to your guild" in x:
+                words.remove("You")
+                #logging.debug(words)
+            index = 9 #where we start parsing for item name
             item = ""
-            winner = words[12].decode().capitalize()
-            destination.write("[Winner: " + winner)
-            for y in range(itemIndex):
-                item = item + words[13 + y].decode()
-                if y < itemIndex:
-                    item = item + " "
-            item = item[:-2]
-            destination.write(" Item: " + item + "]")
+
+            month = words[1]
+            #need python 3.10+ for match statements
+            if month == "Jan":
+                month = "01"
+            elif month == "Feb":
+                month = "02"
+            elif month ==  "Mar":
+                month = "03"
+            elif month ==  "Apr":
+                month = "04"
+            elif month ==  "May":
+                month = "05"
+            elif month ==  "Jun":
+                month = "06"
+            elif month ==  "Jul":
+                month = "07"
+            elif month ==  "Aug":
+                month = "08"
+            elif month ==  "Sep":
+                month = "09"
+            elif month ==  "Oct":
+                month = "10"
+            elif month ==  "Nov":
+                month = "11"
+            elif month ==  "Dec":
+                month = "12"
+
+            day = words[2]
+            year = words[4][:-1] #removes end '
+
+            dateForm = day + "/" + month + "/" + year
+            
+            #pieces together the item name
+            while words[index] != ';':
+                item = item + words[index]
+                item = item + ' '
+                index = index + 1
+            item = item[1:] #removes first '
+            item = item[:-1]#removes extra space
+            amount = words[index + 1]
+            winner = words[index + 3].capitalize()
+
             person = Player.objects.filter(playerName=winner)
-            if person:
-                newItem = {'winner': winner, 'item': item}
-                items.append(newItem)
+            if not person:
+                newPlayer = Player(playerName=winner, playerClass="Warrior", playerType="New")
+                newPlayer.save()
+            newItem = {'winner': winner, 'item': item, 'amount' : amount, 'date' : dateForm}
+            items.append(newItem)
+
+            #logging.debug(dateForm)
+            #logging.debug(item)
+            #logging.debug(amount)
+            #logging.debug(winner)
+
     return items
+
+    #OLD FORMAT, NO LONGER USED
+    # words = x.split()
+    # itemIndex = len(words) - 13
+    # item = ""
+    # winner = words[12].decode().capitalize()
+    # destination.write("[Winner: " + winner)
+    # for y in range(itemIndex):
+    #     item = item + words[13 + y].decode()
+    #     if y < itemIndex:
+    #         item = item + " "
+    # item = item[:-2]
+    # destination.write(" Item: " + item + "]")
+    # person = Player.objects.filter(playerName=winner)
+    # if person:
+    #     newItem = {'winner': winner, 'item': item}
+    #     items.append(newItem)
 
 def applyWins(request):
     logging.debug("INSIDE APPLYWINS FUNC")
@@ -69,6 +135,10 @@ def applyWins(request):
     for entry in request.session['winsList']:
         winnerName = entry['winner']
         item = entry['item']
-        newItem = Item(itemName=item,winner=winnerName)
+        amount = entry['amount']
+        date = entry['date']
+        #play nice with required date formatting, this puts into YYYY-DD-MM
+        dateForm = date[6:] + '-' + date[3:5] + '-' + date[0:2]
+        newItem = Item(itemName=item,winner=winnerName, price=amount, itemDate=dateForm)
         newItem.save()
     return request

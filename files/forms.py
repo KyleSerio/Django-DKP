@@ -18,3 +18,5 @@ class UploadFileForm(forms.Form):
 class editWins(forms.Form):
     winner = forms.CharField(label="Winner", max_length=50)
     item = forms.CharField(label="Item Name", max_length=50)
+    amount = forms.IntegerField()
+    date = forms.DateField()

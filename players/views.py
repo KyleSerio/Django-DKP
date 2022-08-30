@@ -17,7 +17,7 @@ def index(request):
 #Detail page for the player
 def detail(request, playerName):
     player = get_object_or_404(Player, playerName=playerName)
-    items = Item.objects.filter(Q(winner=playerName)).order_by('itemDate')
+    items = Item.objects.filter(Q(winner=playerName)).order_by('-itemDate')
     return render(request, 'players/detail.html', {'player': player, 'items' : items})
 
 # Create your views here.

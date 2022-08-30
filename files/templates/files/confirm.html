@@ -30,7 +30,7 @@
     {% csrf_token %}
     <table class="table table-dark">
         {% for item in dataForm %}
-            <tr><td>{{ item.winner }}</td><td> {{ item.item }} </td></tr>
+            <tr><td>{{ item.winner }}</td><td> {{ item.item }} </td> <td> {{item.amount}} </td><td> {{item.date}} </td></tr>
         {% endfor %}
     </table>
     <li><a href="{% url 'files:confirm'%}">{{ "Done" }}</a></li>

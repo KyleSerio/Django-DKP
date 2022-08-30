@@ -16,6 +16,6 @@ def index(request):
     return render(request, 'items/index.html', context)
 
 def detail(request, itemName):
-    items = Item.objects.filter(itemName=itemName).order_by('itemDate')
+    items = Item.objects.filter(itemName=itemName).order_by('-itemDate')
     return render(request, 'items/detail.html', {'items' : items, 'itemName' : itemName})
 
