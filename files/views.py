@@ -24,8 +24,6 @@ def uploadFile(request):
     logging.debug("UploadFile View")
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
-        logging.debug("Form??")
-        logging.debug(request.POST)
         if form.is_valid():
             type = form.cleaned_data.get("type")
             #type corresponds to the 1st part of the logTypes tuple in forms
@@ -34,8 +32,13 @@ def uploadFile(request):
                 choice = 1
                 parseGuild(request)
             elif type[0] == "2":
+                files = request.FILES.getlist('file')
                 choice = 2
-                parseRaid(request)
+                logging.debug("files ==")
+                logging.debug(files)
+                for f in files:
+                    logging.debug("in for")
+                    parseRaid(f)
             elif type[0] == "3":
                 logging.debug("LogFile Type: Wins")
                 choice = 3
@@ -48,7 +51,8 @@ def uploadFile(request):
                 #dataForm = editWins(request.POST, request.FILES)
                 #dataForm = editWins(winsList)
                 logging.debug("Going into the return")
-            return render(request, 'files/confirm.html', {'dataForm': dataForm, 'winsList': winsList})
+                return render(request, 'files/confirm.html', {'dataForm': dataForm, 'winsList': winsList})
+            return render(request, 'files/index.html')
     else:
         form = UploadFileForm()
 

@@ -6,20 +6,21 @@ import re
 minLevel = 60
 dkpPerRaid = 50
 
-def parseRaid(request):
-    f = request.FILES['file']
-    lines = f.readlines()
-    with open('E:\Programs\Python\Web\mysite\mysite\out.txt', 'w') as destination:
-        for x in lines:
-            words = x.split()
-            for y in words:
-                person = Player.objects.filter(playerName=y.decode())
-                if person:
-                    destination.write(y.decode() + "FOUND\n")
-                    person.update(currentDKP=F('currentDKP') + dkpPerRaid)
-                    person.update(checksEarned=F('checksEarned') + 1)
-    #Update all players potential checks                
+def parseRaid(f):
+    #f = request.FILES['file']
+    lines = f
+
+    for x in lines:
+        words = x.split()
+        
+        person = Player.objects.filter(playerName=words[1].decode())
+        if person:
+            logging.debug("giving check to: " + words[1].decode())
+            person.update(currentDKP=F('currentDKP') + dkpPerRaid)
+            person.update(checksEarned=F('checksEarned') + 1)
+    #Update all players potential checks     
     Player.objects.all().update(checksAvail=F('checksAvail')+1)
+    logging.debug("Raid Dump Parsed")
 
 def parseGuild(request):
     f = request.FILES['file']
@@ -98,9 +99,10 @@ def parseWins(request):
             winner = words[index + 3].capitalize()
 
             person = Player.objects.filter(playerName=winner)
-            if not person:
-                newPlayer = Player(playerName=winner, playerClass="Warrior", playerType="New")
-                newPlayer.save()
+            if not person: #THROW ERROR OF SOME KIND HERE, getting misspelled names as new characters
+                person = Player(playerName=winner, playerClass="Warrior", playerType="New")
+                person.save()
+            person.update(currentDKP=F('currentDKP') - amount)
             newItem = {'winner': winner, 'item': item, 'amount' : amount, 'date' : dateForm}
             items.append(newItem)
 

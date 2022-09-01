@@ -7,7 +7,7 @@ class UploadFileForm(forms.Form):
         ("3", "Wins Dump"),
     )
     title = forms.CharField(max_length=50)
-    file = forms.FileField()
+    file = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
     type = forms.MultipleChoiceField(choices = logTypes)
     #Automagically adds class="form-control" to each field, making it prettier
     def __init__(self, *args, **kwargs):
